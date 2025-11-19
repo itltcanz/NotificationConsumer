@@ -1,0 +1,48 @@
+server:
+  port: ${APP_CONSUMER_PORT}
+
+logging:
+  level:
+    org.apache.kafka: WARN
+
+spring:
+  config:
+    import: file:.env[.properties]
+
+  application:
+    name: ${APP_CONSUMER_NAME}
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}?currentSchema=${DATABASE_CONSUMER_SCHEMA}&ApplicationName=${APP_CONSUMER_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.yml
+    default-schema: ${DATABASE_CONSUMER_SCHEMA}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
+    consumer:
+      group-id: 1
+      key-deserializer: org.apache.kafka.common.serialization.UUIDDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+    properties:
+      spring.json.trusted.packages: "*"
+      spring.deserializer.value.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+
+    settings:
+      retry-number: 0
+      retry-pause: 0
+    topic: ${KAFKA_TOPIC_NAME}
+
+inbox:
+  batch-size: 50
+  batch-sort-field: createdAt
+  delay-ms: 1000

@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changesets/create-table-sms-inbox.sql
+  - include:
+      file: db/changelog/changesets/create-table-email-inbox.sql
+  - include:
+      file: db/changelog/changesets/create-table-push-inbox.sql
+  - include:
+      file: db/changelog/changesets/create-table-telegram-inbox.sql
