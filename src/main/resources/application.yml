@@ -1,14 +1,8 @@
-server:
-  port: ${APP_CONSUMER_PORT}
-
 logging:
   level:
     org.apache.kafka: WARN
 
 spring:
-  config:
-    import: file:.env[.properties]
-
   application:
     name: ${APP_CONSUMER_NAME}
 

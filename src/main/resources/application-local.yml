@@ -1,0 +1,2 @@
+server.port: ${APP_CONSUMER_PORT}
+spring.config.import: file:.env[.properties]
